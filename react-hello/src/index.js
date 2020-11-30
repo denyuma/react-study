@@ -2,44 +2,42 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-class FlavorForm extends React.Component {
+function BoilingVerdict(props) {
+  if (props.celsius >= 100) {
+    return <p>The water would boil.</p>
+  } else {
+    return <p>The water would not boil.</p>
+  }
+}
+
+class Calculator extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {value: 'coconut'};
-
     this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.state = {temperature: ''};
   }
 
-  handleChange (event) {
-    this.setState({value: event.target.value});
+  handleChange (e) {
+    this.setState({temperature: e.target.value});
   }
 
-  handleSubmit (event) {
-    alert('Your favorite flavor was submitted:' + this.state.value);
-    event.preventDefault();
-  }
-
-  render() {
+  render () {
+    const temperature = this.state.temperature;
     return (
-      <form onSubmit={this.handleSubmit}>
-        <label >
-          Pick your favorite flavor
-          <select value={this.state.value} onChange={this.handleChange}>
-            <option value="grapefruit">Graipfruit</option>
-            <option value="lime">Lime</option>
-            <option value="coconut">Coconut</option>
-            <option value="mango">Mango</option>
-          </select>\
-        </label>
-        <input type="submit" value="Submit"/>
-      </form>
+      <fieldset>
+        <legend>Enter temperature in Celsius:</legend>
+        <input 
+          value={temperature}
+          onChange={this.handleChange}
+        />
+        <BoilingVerdict celsius={this.state.temperature} />
+      </fieldset>
     );
   }
 }
 
 ReactDOM.render(
-  <FlavorForm />,
+  <Calculator />,
   document.getElementById('root')
 );
 
